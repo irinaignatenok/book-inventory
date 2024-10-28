@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Inventory</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Book Inventory Management</h1>
+
+    <h2>Add New Book</h2>
+    <form id="add-book-form">
+      <input type="text" id="title" placeholder="Title" required />
+      <input type="text" id="author" placeholder="Author" required />
+      <input type="text" id="genre" placeholder="Genre" required />
+      <input
+        type="date"
+        id="publication_date"
+        placeholder="Publication Date"
+        required
+      />
+      <input type="text" id="isbn" placeholder="ISBN" required />
+      <button type="submit">Add Book</button>
+    </form>
+
+    <!-- Message Area -->
+    <div id="message" style="margin-top: 10px"></div>
+
+    <h2>Filter Books</h2>
+    <input type="text" id="filter-title" placeholder="Filter by Title" />
+    <input type="text" id="filter-author" placeholder="Filter by Author" />
+    <input type="text" id="filter-genre" placeholder="Filter by Genre" />
+    <button id="filter-button">Filter</button>
+
+    <h2>Books List</h2>
+    <ul id="books-list"></ul>
+
+    <button id="export-json-button">Export JSON</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
