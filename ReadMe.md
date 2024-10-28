@@ -11,15 +11,17 @@ Documentation
 
 3. Installation Instructions
    To set up the project locally, follow these steps:
-
-4. Clone the Repository:
+   Make sure you have Node.js installed. Run the following command to install project dependencies:
+   Clone the Repository:
    Copy code
    git clone https://github.com/irinaignatenok/book-inventory.git
    cd book-inventory
+   npm install
+   npm start
 
-5. Open the HTML File: Open index.html in your web browser to view and use the application.
+4. Open the HTML File: Open index.html in your web browser to view and use the application.
 
-6. Usage
+5. Usage
    After setting up the application:
    • Adding a Book:
    o Navigate to the "Add Book" section in the UI.
@@ -29,15 +31,15 @@ Documentation
    • Exporting Data:
    o Click the "Export" button to download the inventory data as a JSON file.
 
-7. Design Decisions
+6. Design Decisions
    • Language Choice: Vanilla JavaScript was chosen for its simplicity and ease of integration with HTML and CSS, allowing for a straightforward implementation without the need for additional libraries or frameworks.
    • Database: SQLite was selected for its lightweight nature, making it easy to set up and manage for this project.
 
-8. Challenges Faced
+7. Challenges Faced
    • Data Persistence: Implementing a way to save and retrieve data from the SQLite database required careful handling of asynchronous operations.
-9. Demo
+8. Demo
 
    • A short demo video showcasing the functionality of the Inventory Books provided.
 
-10. Conclusion
-    • The Inventory Books successfully provides a user-friendly solution for managing book inventories. With the implemented features and a focus on usability, the application meets the needs of users looking for an effective inventory management solution.
+9. Conclusion
+   • The Inventory Books successfully provides a user-friendly solution for managing book inventories. With the implemented features and a focus on usability, the application meets the needs of users looking for an effective inventory management solution.

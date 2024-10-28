@@ -39,6 +39,9 @@ router.get('/books', (req, res) => {
         params.push(`%${genre}%`);
     }
 
+    console.log('Query:', query);
+    console.log('Params:', params);
+
     db.all(query, params, (err, rows) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -46,6 +49,7 @@ router.get('/books', (req, res) => {
         res.json(rows);
     });
 });
+
 
 // Export book JSON
 

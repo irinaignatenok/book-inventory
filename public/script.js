@@ -1,9 +1,42 @@
 const apiUrl = 'http://localhost:3000/api/books';
 const messageDiv = document.getElementById('message');
 
-// Add new book
-let bookForm = document.getElementById('add-book-form');
-bookForm.addEventListener('submit', function (e) {
+let allBooks = []; // Store all books globally for filtering
+
+// Load all Books from the API
+function loadBooks() {
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            allBooks = data; // Save all books for filtering
+            displayBooks(allBooks); // Display all books
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Display Books
+function displayBooks(books) {
+    const bookList = document.getElementById('books-list');
+    bookList.innerHTML = ''; // Clear existing list
+
+    books.forEach(book => {
+        const line = document.createElement('li');
+        line.classList.add('book-card');
+
+        line.innerHTML = `
+                    <h2 class="book-title">${book.title}</h2>
+                    <p class="book-author">Author: ${book.author}</p>
+                    <p class="book-genre">Genre: ${book.genre}</p>
+                    <p class="book-publication-date">Published on: ${book.publicationDate}</p>
+                    <p class="book-isbn">ISBN: ${book.isbn}</p>
+                `;
+
+        bookList.appendChild(line);
+    });
+}
+
+// Add New Books
+document.getElementById('add-book-form').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const newBook = {
@@ -19,61 +52,41 @@ bookForm.addEventListener('submit', function (e) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newBook)
     })
-        .then(response => {
-            if (!response.ok) {
-                // If the response is not ok, return the error message from the server
-                return response.json().then(err => { throw new Error(err.message); });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Book added:', data);
-            loadBooks();
-            bookForm.reset();
-            // Show a success message
-            messageDiv.textContent = 'Book added successfully!';
-            messageDiv.style.color = 'green';
-        })
-        .catch(error => {
-            console.error('Error:', error.message);
-
-            // Show the error message
-            messageDiv.textContent = error.message || 'An error occurred while adding the book.';
-            messageDiv.style.color = 'red';
-        });
-});
-
-// Load all Books
-function loadBooks() {
-    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            displayBooks(data);
+            console.log('Book added:', data);
+            loadBooks(); // Reload books after adding
+            this.reset(); // Clear form fields
+            messageDiv.textContent = 'Books added successfully!';
+            messageDiv.style.color = 'green';
         })
         .catch(error => console.error('Error:', error));
-}
+    // Show the error message
+    messageDiv.textContent = error.message || 'An error occurred while adding the books.';
+    messageDiv.style.color = 'red';
+});
 
-// Display Books
-function displayBooks(books) {
-    const bookList = document.getElementById('books-list');
-    bookList.innerHTML = '';
+// Filter Books
+document.getElementById('filter-button').addEventListener('click', function () {
+    const filterTitle = document.getElementById('filter-title').value.toLowerCase();
+    const filterAuthor = document.getElementById('filter-author').value.toLowerCase();
+    const filterGenre = document.getElementById('filter-genre').value.toLowerCase();
 
-    books.forEach(book => {
-        const line = document.createElement('li');
-        line.classList.add('book-card');
-
-        line.innerHTML = `
-            <h2 class="book-title">${book.title}</h2>
-            <p class="book-author">Author: ${book.author}</p>
-            <p class="book-genre">Genre: ${book.genre}</p>
-            <p class="book-publication-date">Published on: ${book.publicationDate}</p>
-            <p class="book-isbn">ISBN: ${book.isbn}</p>
-        `;
-
-        bookList.appendChild(line);
+    const filteredBooks = allBooks.filter(book => {
+        return (
+            (!filterTitle || book.title.toLowerCase().includes(filterTitle)) &&
+            (!filterAuthor || book.author.toLowerCase().includes(filterAuthor)) &&
+            (!filterGenre || book.genre.toLowerCase().includes(filterGenre))
+        );
     });
-}
+    document.getElementById('filter-title').value = ""
+    document.getElementById('filter-author').value = ""
+    document.getElementById('filter-genre').value = ""
+    displayBooks(filteredBooks);
 
+});
+
+// Load books when the page is loaded
 loadBooks();
 
 // Export Books JSON
