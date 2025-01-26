@@ -63,10 +63,12 @@
 // });
 
 // module.exports = db;
+require('dotenv').config();
+
 const { Client } = require('pg');
 
 // Set the database connection string based on the environment
-const dbConnectionString = process.env.DATABASE_URL  // Replace with your default connection string
+const dbConnectionString = process.env.DATABASE_URL
 
 // Create a new PostgreSQL client instance
 const client = new Client({
