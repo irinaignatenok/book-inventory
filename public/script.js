@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:3000/api/books';
+const apiUrl = 'https://book-inventory-x3lc.onrender.com/api/books';
 const messageDiv = document.getElementById('message');
 
 let allBooks = []; // Store all books globally for filtering

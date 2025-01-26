@@ -63,6 +63,7 @@
 // });
 
 // module.exports = db;
+const { Pool } = require('pg');
 require('dotenv').config();
 
 const { Client } = require('pg');
