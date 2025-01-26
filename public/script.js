@@ -70,3 +70,55 @@ document.getElementById('add-book-form').addEventListener('submit', function (e)
 // Filter Books
 document.getElementById('filter-button').addEventListener('click', function () {
     const filterTitle = document.getElementById('filter-title').value.toLowerCase();
+    const filterAuthor = document.getElementById('filter-author').value.toLowerCase();
+    const filterGenre = document.getElementById('filter-genre').value.toLowerCase();
+
+    const filteredBooks = allBooks.filter(book => {
+        return (
+            (!filterTitle || book.title.toLowerCase().includes(filterTitle)) &&
+            (!filterAuthor || book.author.toLowerCase().includes(filterAuthor)) &&
+            (!filterGenre || book.genre.toLowerCase().includes(filterGenre))
+        );
+    });
+    document.getElementById('filter-title').value = "";
+    document.getElementById('filter-author').value = "";
+    document.getElementById('filter-genre').value = "";
+    displayBooks(filteredBooks);
+});
+
+// Load books when the page is loaded
+loadBooks();
+
+// Export Books JSON
+function exportBooksJSON() {
+    fetch('https://book-inventory-x3lc.onrender.com/api/books/export/json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'books_inventory.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Show a success message
+            messageDiv.textContent = 'Books exported successfully!';
+            messageDiv.style.color = 'green';
+        })
+        .catch(error => {
+            console.error('Error exporting JSON:', error);
+
+            // Show the error message
+            messageDiv.textContent = error.message || 'An error occurred while exporting the books.';
+            messageDiv.style.color = 'red';
+        });
+}
+
+document.getElementById('export-json-button').addEventListener('click', exportBooksJSON);
